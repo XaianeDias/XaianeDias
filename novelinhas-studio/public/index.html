@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Novelinhas Studio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🎬 Novelinhas Studio</h1>
+    <p class="sub">Cole o personagem uma vez, mande o roteiro e receba o vídeo vertical pronto (1 a 2 min) com cenas, falas e legendas.</p>
+    <div id="status" class="chips"></div>
+  </header>
+
+  <main>
+    <!-- PERSONAGEM -->
+    <section class="card" id="card-personagem">
+      <h2>1. Personagem fixo</h2>
+      <div id="personagem-view" hidden>
+        <div class="personagem">
+          <img id="p-img" alt="" hidden />
+          <div>
+            <h3 id="p-nome"></h3>
+            <p id="p-desc" class="desc"></p>
+            <p class="meta">Voz: <b id="p-voz"></b> <span id="p-estilo"></span></p>
+            <p class="hint">✅ Este personagem será usado em todos os episódios até você trocar.</p>
+          </div>
+        </div>
+        <div class="row">
+          <button class="ghost" id="btn-editar">Editar</button>
+          <button class="danger" id="btn-trocar">Trocar personagem</button>
+        </div>
+      </div>
+
+      <form id="personagem-form" hidden>
+        <label>Nome do personagem
+          <input name="nome" placeholder="Ex.: Helena" required />
+        </label>
+        <label>Prompt / descrição do personagem
+          <textarea name="descricao" rows="6" required
+            placeholder="Cole aqui o prompt com a descrição física do personagem. Ex.: mulher brasileira de 28 anos, pele morena, cabelos cacheados castanhos até os ombros, olhos castanhos, sardas leves, usa blusa vermelha de seda e brinco de argola dourado..."></textarea>
+        </label>
+        <div class="grid2">
+          <label>Voz do personagem
+            <select name="voz" id="sel-voz"></select>
+          </label>
+          <label>Estilo visual da série (opcional)
+            <input name="estiloVisual" placeholder="Ex.: realista, cinematográfico, luz dramática" />
+          </label>
+        </div>
+        <div class="row">
+          <button type="submit">Salvar personagem</button>
+          <button type="button" class="ghost" id="btn-cancelar" hidden>Cancelar</button>
+        </div>
+        <div id="anteriores"></div>
+      </form>
+    </section>
+
+    <!-- EPISÓDIO -->
+    <section class="card" id="card-episodio">
+      <h2>2. Roteiro do episódio</h2>
+      <form id="episodio-form">
+        <label>Título (opcional)
+          <input name="titulo" placeholder="Ex.: A traição no casamento — Ep. 3" />
+        </label>
+        <label>Roteiro ou ideia
+          <textarea name="roteiro" rows="12" required placeholder="CENA: igreja lotada, dia do casamento
+HELENA (nervosa): Eu não posso fazer isso...
+RICARDO: Helena, todo mundo está olhando!
+
+CENA: sacristia, porta entreaberta
+NARRADOR: Mas o que Helena viu ali mudou tudo.
+HELENA (raiva): Você e a minha irmã?!
+
+— ou só uma ideia: &quot;Helena descobre no dia do casamento que o noivo a trai com a irmã&quot;"></textarea>
+        </label>
+        <div class="grid2">
+          <label>Música de fundo
+            <select name="musica" id="sel-musica"></select>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="revisar" checked />
+            Revisar cenas e falas antes de gerar o vídeo
+          </label>
+        </div>
+        <button type="submit" id="btn-criar">✨ Criar episódio</button>
+      </form>
+    </section>
+
+    <!-- PROGRESSO -->
+    <section class="card" id="card-progresso" hidden>
+      <h2 id="prog-titulo">Gerando...</h2>
+      <p id="prog-etapa"></p>
+      <div class="bar"><div id="prog-bar"></div></div>
+      <details><summary>Detalhes</summary><pre id="prog-logs"></pre></details>
+    </section>
+
+    <!-- REVISÃO -->
+    <section class="card" id="card-revisao" hidden>
+      <h2>3. Revise as cenas</h2>
+      <label>Gancho (aparece nos 2 primeiros segundos)
+        <input id="rev-gancho" />
+      </label>
+      <div id="rev-cenas"></div>
+      <label>Cartão final
+        <input id="rev-final" />
+      </label>
+      <button id="btn-render">🎥 Gerar vídeo</button>
+    </section>
+
+    <!-- RESULTADO -->
+    <section class="card" id="card-resultado" hidden>
+      <h2>Seu episódio está pronto 🎉</h2>
+      <div class="video-wrap"><video id="video" controls playsinline></video></div>
+      <div class="row center">
+        <a id="btn-baixar" class="button" download>⬇️ Baixar MP4</a>
+        <button class="ghost" id="btn-novo">Fazer outro episódio</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Meus episódios</h2>
+      <div id="lista" class="lista"></div>
+    </section>
+  </main>
+
+  <template id="tpl-cena">
+    <div class="cena">
+      <div class="cena-head"><b class="num"></b> <input class="ambiente" placeholder="Cenário" /></div>
+      <label class="small">Imagem da cena (descrição visual)
+        <textarea class="prompt" rows="2"></textarea>
+      </label>
+      <label class="small">Texto na tela (opcional)
+        <input class="texto-tela" placeholder="Ex.: 3 dias depois..." />
+      </label>
+      <div class="falas"></div>
+      <button type="button" class="ghost small-btn add-fala">+ fala</button>
+    </div>
+  </template>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
